@@ -6,19 +6,19 @@ Documentación técnica del despliegue de infraestructura, seguridad perimetral 
 
 ## Índice de Documentación
 
-* **[Fase 0: Preparación Inicial y Acceso Remoto (SSH)](informe/fase0.md)**
+* **[Fase 0: Preparación Inicial y Acceso Remoto (SSH)](informe/informe.md#fase-0-preparación-inicial-y-acceso-remoto-ssh)**
   * Configuración de red estática, nombres de equipo (`hostnames`) y zona horaria.
   * Despliegue de servidor SSH, generación de claves `ed25519` y acceso remoto mediante clave pública.
-* **[Fase 1: Cortafuegos Perimetral pfSense y Reglas NAT](informe/fase1.md)**
+* **[Fase 1: Cortafuegos Perimetral pfSense y Reglas NAT](informe/informe.md#fase-1-cortafuegos-perimetral-pfsense-y-reglas-nat)**
   * Desactivación del servidor DHCP integrado en pfSense.
   * Configuración de reglas de redirección de puertos (`Port Forwarding`) restringidas a la red del aula (`172.26.44.0/24`).
-* **[Fase 2: Servicio DHCP en Alta Disponibilidad (Failover)](informe/fase2.md)**
+* **[Fase 2: Servicio DHCP en Alta Disponibilidad (Failover)](informe/informe.md#fase-2-servicio-dhcp-en-alta-disponibilidad-failover)**
   * Configuración de `isc-dhcp-server` en modo `primary` (`server1-g4`) y `secondary` (`server2-g4`).
   * Reparto dinámico, reserva de IP por dirección MAC (`server4-g4`) y pruebas de tolerancia a fallos.
-* **[Fase 3: Servicio DNS Maestro-Esclavo (`grupo4reto4.eus`)](informe/fase3.md)**
+* **[Fase 3: Servicio DNS Maestro-Esclavo (`grupo4reto4.eus`)](informe/informe.md#fase-3-servicio-dns-maestro-esclavo-grupo4reto4eus)**
   * Configuración de BIND9 en maestro (`server1-g4`) y esclavo (`server2-g4`) con zonas directa e inversa.
   * Sincronización mediante actualización de Serial, alias (`CNAME`), consultas desde la WAN y pruebas de caída.
-* **[Fase 4: Servidor Web Apache2 y Monitorización con Monitorix](informe/fase4.md)**
+* **[Fase 4: Servidor Web Apache2 y Monitorización con Monitorix](informe/informe.md#fase-4-servidor-web-apache2-y-monitorización-con-monitorix)**
   * Configuración de VirtualHost en Apache2 (`server3-g4`) con registros personalizados y acceso externo.
   * Despliegue de Monitorix, integración de gráficas de Apache y acceso remoto.
 
