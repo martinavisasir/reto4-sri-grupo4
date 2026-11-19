@@ -1,0 +1,18 @@
+network:
+  version: 2
+  ethernets:
+    eth0:
+      match:
+        macaddress: "bc:24:11:56:18:17"
+      addresses:
+      - "192.168.4.103/24"
+      nameservers:
+        addresses:
+        - 192.168.4.101
+        - 192.168.4.102
+        search:
+        - grupo4reto4.eus
+      set-name: "eth0"
+      routes:
+      - to: "default"
+        via: "192.168.4.1"
