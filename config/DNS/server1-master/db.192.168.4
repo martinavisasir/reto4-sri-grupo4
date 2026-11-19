@@ -1,0 +1,18 @@
+$TTL 1d
+@       IN      SOA     server1-g4.grupo4reto4.eus. root.grupo4reto4.eus. (
+                        2026111601      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+
+; Servidores de nombres
+@       IN      NS      server1-g4.grupo4reto4.eus.
+@       IN      NS      server2-g4.grupo4reto4.eus.
+
+; Registros PTR (Ultimo octeto de 192.168.4.X)
+1       IN      PTR     gateway.grupo4reto4.eus.
+101     IN      PTR     server1-g4.grupo4reto4.eus.
+102     IN      PTR     server2-g4.grupo4reto4.eus.
+103     IN      PTR     server3-g4.grupo4reto4.eus.
+104     IN      PTR     server4-g4.grupo4reto4.eus.

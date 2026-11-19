@@ -1,0 +1,11 @@
+zone "grupo4reto4.eus" {
+    type slave;
+    file "db.grupo4reto4.eus";
+    masters { 192.168.4.101; };
+};
+
+zone "4.168.192.in-addr.arpa" {
+    type slave;
+    file "db.192.168.4";
+    masters { 192.168.4.101; };
+};

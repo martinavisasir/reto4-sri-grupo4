@@ -1,0 +1,41 @@
+$TTL 1d
+@       IN      SOA     server1-g4.grupo4reto4.eus. root.grupo4reto4.eus. (
+                        2026111603      ; Serial (AAAAMMDDNN)
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+
+; Servidores de nombres (Maestro y Esclavo)
+@       IN      NS      server1-g4.grupo4reto4.eus.
+@       IN      NS      server2-g4.grupo4reto4.eus.
+
+; Dominio raiz apuntando a la web en VMware
+@       IN      A       172.16.250.104
+
+; Red Proxmox (192.168.4.0/24)
+pfsense         IN      A       192.168.4.1
+server1-g4      IN      A       192.168.4.101
+server2-g4      IN      A       192.168.4.102
+server3-g4      IN      A       192.168.4.103
+server4-g4      IN      A       192.168.4.104
+
+; Red VMware (Web del grupo)
+web-vmware      IN      A       172.16.250.104
+web-interna     IN      A       10.0.4.2
+
+; PCs fisicos Windows del aula (172.26.44.0/24)
+pc-win1         IN      A       172.26.44.9
+pc-win2         IN      A       172.26.44.10
+pc-win3         IN      A       172.26.44.11
+pc-win4         IN      A       172.26.44.12
+pc-win5         IN      A       172.26.44.13
+
+; Alias (CNAME) para servicios y roles
+dns1                     IN      CNAME   server1-g4
+dns2                     IN      CNAME   server2-g4
+monitor               IN      CNAME   server3-g4
+web-proxmox             IN      CNAME   server3-g4
+cliente                 IN      CNAME   server4-g4
+www                     IN      CNAME   web-vmware
+web-server              IN      CNAME   web-vmware
