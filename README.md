@@ -6,25 +6,25 @@ Documentación técnica del despliegue de infraestructura, seguridad perimetral 
 
 ## Índice de Documentación
 
-* **[Fase 0: Preparación Inicial y Acceso Remoto (SSH)](informe/informe.md#fase-0-preparación-inicial-y-acceso-remoto-ssh)**
-  * Configuración de red estática, nombres de equipo (`hostnames`) y zona horaria.
-  * Despliegue de servidor SSH, generación de claves `ed25519` y acceso remoto mediante clave pública.
-* **[Fase 1: Cortafuegos Perimetral pfSense y Reglas NAT](informe/informe.md#fase-1-cortafuegos-perimetral-pfsense-y-reglas-nat)**
-  * Desactivación del servidor DHCP integrado en pfSense.
-  * Configuración de reglas de redirección de puertos (`Port Forwarding`) restringidas a la red del aula (`172.26.44.0/24`).
-* **[Fase 2: Servicio DHCP en Alta Disponibilidad (Failover)](informe/informe.md#fase-2-servicio-dhcp-en-alta-disponibilidad-failover)**
-  * Configuración de `isc-dhcp-server` en modo `primary` (`server1-g4`) y `secondary` (`server2-g4`).
-  * Reparto dinámico, reserva de IP por dirección MAC (`server4-g4`) y pruebas de tolerancia a fallos.
-* **[Fase 3: Servicio DNS Maestro-Esclavo (`grupo4reto4.eus`)](informe/informe.md#fase-3-servicio-dns-maestro-esclavo-grupo4reto4eus)**
-  * Configuración de BIND9 en maestro (`server1-g4`) y esclavo (`server2-g4`) con zonas directa e inversa.
-  * Sincronización mediante actualización de Serial, alias (`CNAME`), consultas desde la WAN y pruebas de caída.
-* **[Fase 4: Servidor Web Apache2 y Monitorización con Monitorix](informe/informe.md#fase-4-servidor-web-apache2-y-monitorización-con-monitorix)**
-  * Configuración de VirtualHost en Apache2 (`server3-g4`) con registros personalizados y acceso externo.
-  * Despliegue de Monitorix, integración de gráficas de Apache y acceso remoto.
+- **[Fase 0: Preparación Inicial y Acceso Remoto (SSH)](informe/informe.md#fase-0-preparación-inicial-y-acceso-remoto-ssh)**
+  - Configuración de red estática, nombres de equipo (`hostnames`) y zona horaria.
+  - Despliegue de servidor SSH, generación de claves `ed25519` y acceso remoto mediante clave pública.
+- **[Fase 1: Cortafuegos Perimetral pfSense y Reglas NAT](informe/informe.md#fase-1-cortafuegos-perimetral-pfsense-y-reglas-nat)**
+  - Desactivación del servidor DHCP integrado en pfSense.
+  - Configuración de reglas de redirección de puertos (`Port Forwarding`) restringidas a la red del aula (`172.26.44.0/24`).
+- **[Fase 2: Servicio DHCP en Alta Disponibilidad (Failover)](informe/informe.md#fase-2-servicio-dhcp-en-alta-disponibilidad-failover)**
+  - Configuración de `isc-dhcp-server` en modo `primary` (`server1-g4`) y `secondary` (`server2-g4`).
+  - Reparto dinámico, reserva de IP por dirección MAC (`server4-g4`) y pruebas de tolerancia a fallos.
+- **[Fase 3: Servicio DNS Maestro-Esclavo (`grupo4reto4.eus`)](informe/informe.md#fase-3-servicio-dns-maestro-esclavo-grupo4reto4eus)**
+  - Configuración de BIND9 en maestro (`server1-g4`) y esclavo (`server2-g4`) con zonas directa e inversa.
+  - Sincronización mediante actualización de Serial, alias (`CNAME`), consultas desde la WAN y pruebas de caída.
+- **[Fase 4: Servidor Web Apache2 y Monitorización con Monitorix](informe/informe.md#fase-4-servidor-web-apache2-y-monitorización-con-monitorix)**
+  - Configuración de VirtualHost en Apache2 (`server3-g4`) con registros personalizados y acceso externo.
+  - Despliegue de Monitorix, integración de gráficas de Apache y acceso remoto.
 
 ---
 
-# Mapa Lógico de la Red — Grupo 4 (`grupo4reto4.eus`)
+## Mapa Lógico de la Red
 
 ```mermaid
 flowchart TB
@@ -75,12 +75,11 @@ flowchart TB
     end
 ```
 
-## Descripción de la Topología Lógica
+### Descripción de la Topología Lógica
 
-* **Subred del Aula (`172.26.44.0/24`):** Alberga los 5 equipos físicos Windows (`pc-win1` a `pc-win5`, IPs `.9` a `.13`) desde los que se administra la infraestructura y se validan los servicios[cite: 1].
-* **Red Troncal del Centro:** Interconecta la subred del aula con las redes donde se alojan los hipervisores del centro (`172.26.46.0/24` para Proxmox VE y `172.16.250.0/24` para VMware)[cite: 1, 4].
-* **Servidor Proxmox VE (`172.26.46.240`) y Red Interna (`192.168.4.0/24`):** El nodo Proxmox aloja tanto la máquina virtual de **pfSense** (con interfaz WAN `vtnet0` en `172.26.46.54/24` e interfaz LAN `vtnet1` en `192.168.4.1/24`) como los cuatro servidores Ubuntu del Grupo 4 (`server1-g4` a `server4-g4`), aislados tras el cortafuegos[cite: 1, 4].
-```
+- **Subred del Aula (`172.26.44.0/24`):** Alberga los 5 equipos físicos Windows (`pc-win1` a `pc-win5`, IPs `.9` a `.13`) desde los que se administra la infraestructura y se validan los servicios.
+- **Red Troncal del Centro:** Interconecta la subred del aula con las redes donde se alojan los hipervisores del centro (`172.26.46.0/24` para Proxmox VE y `172.16.250.0/24` para VMware).
+- **Servidor Proxmox VE (`172.26.46.240`) y Red Interna (`192.168.4.0/24`):** El nodo Proxmox aloja tanto la máquina virtual de **pfSense** (con interfaz WAN `vtnet0` en `172.26.46.54/24` e interfaz LAN `vtnet1` en `192.168.4.1/24`) como los cuatro servidores Ubuntu del Grupo 4 (`server1-g4` a `server4-g4`), aislados tras el cortafuegos.
 
 ---
 
